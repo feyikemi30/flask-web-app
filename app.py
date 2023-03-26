@@ -1,21 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask
+import os
 
 app = Flask(__name__)
 
-<<<<<<< HEAD
-app.debug = True
-
-@app.route("/")
-def index():
- return "I am almost a Devops Engineer!"
-
-if __name__ == '__main__':
- app.run(host='0.0.0.0')
-=======
 @app.route("/")
 def hello():
- return "I am almost a Devops Engineer!"
->>>>>>> 5aa5d77e2291ad50ff9c8ca8a9fc4edd3cf6d2a1
+   return "I am almost a Devops Engineer!"
 
-if __name__ == "__main__":
- app.run(host='0.0.0.0')
+if __name__ == '__main__':
+ 
+port = int(os.environ.get("PORT", 5000))
+   app.run(debug=True, host='0.0.0.0', port=port)
+
