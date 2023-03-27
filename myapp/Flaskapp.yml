@@ -1,0 +1,35 @@
+---
+- name: Deploy Flask app
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Install Python and Flask
+      apt:
+        name: ['python3', 'python3-pip']
+        state: present
+      become: true
+
+    - name: Install Flask using pip
+      pip:
+        name: Flask
+
+    - name: Create a Flask app directory
+      file:
+        path: /home/ubuntu/flask-app
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+
+    - name: Copy Flask app files to the app directory
+      copy:
+        src: app.py
+        dest: /home/ec2-user/flask-app
+        owner: ec2-user
+        group: ec2-user
+
+    - name: Run the Flask app using Gunicorn
+      command: gunicorn app:app -b 0.0.0.0:8000 --daemon
+      args:
+        chdir: /home/ec2-user/flask-app
+      become: true
