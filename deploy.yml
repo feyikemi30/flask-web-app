@@ -18,9 +18,15 @@
         state: present
       become: yes
       
+    
+    - name: Download python3-venv package
+      get_url:
+        url: https://centos.pkgs.org/7/centos-x86_64/python3-venv-3.6.8-18.el7.x86_64.rpm.html
+        dest: /tmp/python3-venv.rpm
+
     - name: Install python3-venv package
       yum:
-        name: python3-venv
+        name: /tmp/python3-venv.rpm
         state: present
       become: yes
   
