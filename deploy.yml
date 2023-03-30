@@ -123,4 +123,4 @@
 
     - name: Start gunicorn
       become: yes
-      command: /bin/bash -c "source /opt/myapp/env/bin/activate && gunicorn app:app -w 4 -b 0.0.0.0:8000"
+      command: /bin/bash -c "source /opt/myapp/env/bin/activate && gunicorn app:app -w 4 -b 0.0.0.0:8000 &"
