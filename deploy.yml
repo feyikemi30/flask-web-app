@@ -57,7 +57,7 @@
     - name: Install dependencies using requirements.txt
       pip:
         requirements: /opt/myapp/requirements.txt
-        executable: /opt/myapp/env/bin/pip
+        executable: /usr/bin/python
   
     - name: Install flask using pip
       #var: ansible_command
