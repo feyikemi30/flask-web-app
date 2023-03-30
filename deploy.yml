@@ -106,9 +106,9 @@
         permanent: true
         state: enabled
 
-    - name: Restart UFW
+    - name: Restart firewalld
       systemd:
-        name: ufw
+        name: firewalld
         state: restarted
       become: yes
         
