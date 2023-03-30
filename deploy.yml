@@ -113,8 +113,20 @@
       become: yes
         
 
-    - name: Start Flask app
-      become: true
-      command: /bin/bash -c "source /opt/myapp/env/bin/activate && export FLASK_APP=/opt/myapp/app.py && /opt/myapp/env/bin/flask run --host=0.0.0.0 --port=5000 &"
-      async: 0
-      poll: 0
+    #name: Start Flask app
+     #become: true
+      #command: /bin/bash -c "source /opt/myapp/env/bin/activate && export FLASK_APP=/opt/myapp/app.py && /opt/myapp/env/bin/flask run --host=0.0.0.0 --port=5000 &"
+      #async: 0
+      #poll: 0
+
+    - name: Start Gunicorn service
+      become: yes
+      systemd:
+        name: gunicorn
+        enabled: yes
+        state: started
+        daemon_reload: yes
+        user: "{{ ansible_user }}"
+        environment:
+          FLASK_APP: /opt/myapp/app.py
+        execstart: "/opt/myapp/env/bin/gunicorn -w 4 -b 0.0.0.0:5000 app:app"
