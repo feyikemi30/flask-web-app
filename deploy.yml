@@ -70,10 +70,12 @@
           MarkupSafe==2.0.1
         dest: /opt/myapp/requirements.txt
   
-    - name: Install flask using pip
+    - name: Install flask and gunicorn using pip
       #var: ansible_command
       pip:
-        name: flask
+        name: 
+          - flask
+          - gunicorn
         executable: /opt/myapp/env/bin/pip
           #state: present
       become: yes
@@ -113,20 +115,12 @@
       become: yes
         
 
-    #name: Start Flask app
-     #become: true
-      #command: /bin/bash -c "source /opt/myapp/env/bin/activate && export FLASK_APP=/opt/myapp/app.py && /opt/myapp/env/bin/flask run --host=0.0.0.0 --port=5000 &"
-      #async: 0
-      #poll: 0
+    - name: Start Flask app
+      become: true
+      command: /bin/bash -c "source /opt/myapp/env/bin/activate && export FLASK_APP=/opt/myapp/app.py && /opt/myapp/env/bin/flask run --host=0.0.0.0 --port=5000 &"
+      async: 0
+      poll: 0
 
-    - name: Start gunicorn service
-      systemd:
-        name: gunicorn
-        state: started
-        enabled: yes
-        mask: no
-        daemon_reload: yes
-        user: "{{ ansible_user }}"
-        environment: "FLASK_APP=/opt/myapp/app.py"
-        exec_start: "/opt/myapp/env/bin/gunicorn --workers 3 --bind 0.0.0.0:5000 app:app"
+    - name: Start gunicorn
       become: yes
+      command: /bin/bash -c "source /opt/myapp/env/bin/activate && gunicorn app:app -w 4 -b 0.0.0.0:8000"
