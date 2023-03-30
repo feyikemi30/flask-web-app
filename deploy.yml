@@ -54,10 +54,6 @@
         dest: /opt/myapp
       become: yes
       
-    - name: Create requirements.txt file
-      hosts: n1
-      tasks:
-      
     - name: Create directory for Flask app
       become: yes
       file:
