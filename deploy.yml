@@ -127,6 +127,5 @@
         state: started
         daemon_reload: yes
         user: "{{ ansible_user }}"
-        # The below line should be changed to match your Flask app's path and module name
-        execstart: "/opt/myapp/env/bin/gunicorn --workers 4 --bind unix:/opt/myapp/myapp.sock myapp:app"
-      become: true
+        environment: 'PATH=/opt/myapp/env/bin'
+        exec_start: /opt/myapp/env/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 app:app
