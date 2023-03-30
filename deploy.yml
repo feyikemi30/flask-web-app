@@ -14,7 +14,7 @@
         name:
           - python3-pip
           - python3-devel
-          - Development Tools
+          - Development-Tools
           - python3-venv
           - git
         state: present
