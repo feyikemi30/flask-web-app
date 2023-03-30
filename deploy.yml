@@ -39,7 +39,7 @@
       become: yes
   
     - name: Activate virtual environment
-      command: /bin/bash -c "source env/bin/activate"
+      command: /bin/bash -c "source /opt/myapp/env/bin/activate"
       become: yes
 
     - name: Clone Git repository
