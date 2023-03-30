@@ -119,14 +119,14 @@
       #async: 0
       #poll: 0
 
-   - name: Start gunicorn service
-     systemd:
-       name: gunicorn
-       state: started
-       enabled: yes
-       mask: no
-       daemon_reload: yes
-       user: "{{ ansible_user }}"
-       environment: "FLASK_APP=/opt/myapp/app.py"
-       exec_start: "/opt/myapp/env/bin/gunicorn --workers 3 --bind 0.0.0.0:5000 app:app"
-     become: yes
+    - name: Start gunicorn service
+      systemd:
+        name: gunicorn
+        state: started
+        enabled: yes
+        mask: no
+        daemon_reload: yes
+        user: "{{ ansible_user }}"
+        environment: "FLASK_APP=/opt/myapp/app.py"
+        exec_start: "/opt/myapp/env/bin/gunicorn --workers 3 --bind 0.0.0.0:5000 app:app"
+      become: yes
