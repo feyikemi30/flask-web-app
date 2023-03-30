@@ -10,7 +10,7 @@
       become: yes
   
     - name: Install necessary packages
-      apt:
+      yum:
         name:
           - python3-pip
           - python3-dev
