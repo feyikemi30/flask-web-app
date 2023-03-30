@@ -21,7 +21,7 @@
     
     - name: Download python3-venv package
       get_url:
-        url: https://centos.pkgs.org/7/centos-x86_64/python3-venv-3.6.8-18.el7.x86_64.rpm.html
+        url: https://rpmfind.net/linux/centos/7.9.2009/os/x86_64/Packages/python3-3.6.8-18.el7.x86_64.rpm
         dest: /tmp/python3-venv.rpm
       become: yes
 
