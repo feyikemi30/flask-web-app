@@ -54,11 +54,25 @@
         dest: /opt/myapp
       become: yes
       
-    - name: Install dependencies using requirements.txt
-      pip:
-        requirements: /opt/myapp/requirements.txt
-        executable: /usr/bin/pip3
+    - name: Create requirements.txt file
+      hosts: n1
+      tasks:
+      
+    - name: Create directory for Flask app
       become: yes
+      file:
+        path: /opt/myapp
+        state: directory
+    
+    - name: Create requirements.txt file
+      become: yes
+      copy:
+        content: |
+          Flask==2.1.0
+          Werkzeug==2.1.0
+          Jinja2==3.0.1
+          MarkupSafe==2.0.1
+        dest: /opt/myapp/requirements.txt
   
     - name: Install flask using pip
       #var: ansible_command
