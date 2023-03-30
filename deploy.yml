@@ -78,6 +78,12 @@
           #state: present
       become: yes
 
+    - name: Install python3-firewall
+      yum:
+        name: python3-firewall
+        state: present
+      become: yes
+        
     - name: Allow incoming traffic on port 5000
       become: true
       firewalld:
