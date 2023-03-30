@@ -1,0 +1,120 @@
+---
+- name: Deploy Flask app
+  hosts: g1
+  remote_user: root
+  
+  tasks:
+    - name: Update yum cache
+      yum:
+        update_cache: yes
+      become: yes
+  
+    - name: Install necessary packages
+      yum:
+        name:
+          - python3-pip
+          - python3-devel
+          - git
+        state: present
+      become: yes
+      
+    - name: Install EPEL repository
+      yum:
+        name: epel-release
+        state: present
+      become: yes
+    #name: Install python3-venv package
+      #yum:
+        #name: python3-venv
+        #state: present
+  
+    #name: Install Development Tools package group
+      #yum:
+        #name: "@development"
+        #state: present
+      #become: yes
+  
+    - name: Create virtual environment
+      command: python3 -m venv /opt/myapp/env
+      become: yes
+  
+    - name: Activate virtual environment
+      command: /bin/bash -c "source /opt/myapp/env/bin/activate"
+      become: yes
+
+    #name: Delete existing /opt/myapp directory
+      #file:
+        #path: /opt/myapp
+        #state: absent
+      #become: yes 
+    
+    - name: Clone Git repository
+      git:
+        repo: https://github.com/feyikemi30/flask-web-app.git
+        dest: /opt/myapp
+      become: yes
+      
+    - name: Create directory for Flask app
+      become: yes
+      file:
+        path: /opt/myapp
+        state: directory
+    
+    - name: Create requirements.txt file
+      become: yes
+      copy:
+        content: |
+          Flask==2.1.0
+          Werkzeug==2.1.0
+          Jinja2==3.0.1
+          MarkupSafe==2.0.1
+        dest: /opt/myapp/requirements.txt
+  
+    - name: Install flask using pip
+      #var: ansible_command
+      pip:
+        name: flask
+        executable: /opt/myapp/env/bin/pip
+          #state: present
+      become: yes
+
+    - name: Allow traffic on port 5000
+      become: yes
+      package:
+        name: firewalld
+        state: present
+
+    - name: Enable firewalld service
+      become: yes
+      systemd:
+        name: firewalld
+        state: started
+        enabled: yes
+
+    - name: Add port 5000 to firewalld
+      become: yes
+      firewalld:
+        port: 5000/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+
+    - name: Allow incoming traffic on port 5000
+      become: true
+      firewalld:
+        port: 5000/tcp
+        permanent: true
+        state: enabled
+
+    - name: Restart firewalld
+      systemd:
+        name: firewalld
+        state: restarted
+      become: yes
+        
+
+    - name: Start Flask app
+      become: true
+      command: /bin/bash -c "source /opt/myapp/env/bin/activate && export FLASK_APP=/opt/myapp/app.py && /opt/myapp/env/bin/flask run --host=0.0.0.0 --port=5000"
+      async: 0
+      poll: 0
