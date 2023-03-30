@@ -82,7 +82,7 @@
       become: true
       pip:
         name: firewall
-        executable: /usr/bin/python3
+        executable: /usr/bin/pip3
         
     - name: Allow incoming traffic on port 5000
       become: true
