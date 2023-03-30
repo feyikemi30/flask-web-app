@@ -57,7 +57,7 @@
     - name: Install dependencies using requirements.txt
       pip:
         requirements: /opt/myapp/requirements.txt
-        executable: /usr/bin/python3 -m pip
+        executable: /usr/bin/pip
       become: yes
   
     - name: Install flask using pip
