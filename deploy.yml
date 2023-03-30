@@ -58,6 +58,7 @@
       pip:
         requirements: /opt/myapp/requirements.txt
         executable: /usr/bin/python3 -m pip
+      become: yes
   
     - name: Install flask using pip
       #var: ansible_command
