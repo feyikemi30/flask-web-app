@@ -42,10 +42,10 @@
       command: /bin/bash -c "source /opt/myapp/env/bin/activate"
       become: yes
       
-    - name: Copy Flask app files
-      copy:
-        src: app.py
-        dest: /opt/myapp/app.py
+    #name: Copy Flask app files
+      #copy:
+        #src: app.py
+        #dest: /opt/myapp/app.py
   
     #name: Delete existing /opt/myapp directory
       #file:
