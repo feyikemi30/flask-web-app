@@ -106,10 +106,11 @@
         state: enabled
         immediate: yes
 
-    - name: Allow incoming traffic on port 5000
+    - name: Allow incoming traffic on port 5000 & 8000
       become: true
       firewalld:
-        port: 5000/tcp
+        proto: tcp
+        port: "5000 & 8000"
         permanent: true
         state: enabled
 
