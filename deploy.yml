@@ -98,21 +98,17 @@
         state: started
         enabled: yes
 
-    - name: Add port 5000 to firewalld
+    - name: Add port 5000 and 8000 to firewalld
       become: yes
       firewalld:
-        port: 5000/tcp
+        port: "{{ item }}"
         permanent: yes
         state: enabled
         immediate: yes
+      with_items:
+        - 5000/tcp
+        - 8000/tcp
 
-    - name: Allow incoming traffic on port 5000 & 8000
-      become: true
-      firewalld:
-        proto: tcp
-        port: "5000 & 8000"
-        permanent: true
-        state: enabled
 
     - name: Restart firewalld
       systemd:
