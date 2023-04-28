@@ -129,8 +129,10 @@
       gather_facts: yes
       vars:
         ansible_ssh_private_key_file: /home/centos/ddi.pem
-      tasks:
-        - name: Display remote host
+      
+    - name: Display remote host
+      debug:
+        var: inventory_hostname
 
 
     #name: Start gunicorn
