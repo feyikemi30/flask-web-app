@@ -124,6 +124,17 @@
       poll: 0
 
 
+    - name: Gather facts
+      hosts: all
+      gather_facts: yes
+      vars:
+        ansible_ssh_private_key_file: /home/centos/ddi.pem
+
+    - name: Display remote host information
+      debug:
+        var: inventory_hostname
+
+
     #name: Start gunicorn
      #become: yes
      #command: /bin/bash -c "source /opt/myapp/env/bin/activate && gunicorn app:app -w 4 -b 0.0.0.0:8000 &"
