@@ -123,17 +123,14 @@
       async: 0
       poll: 0
  
-
+ 
     - name: Gather facts
       hosts: all
       gather_facts: yes
       vars:
         ansible_ssh_private_key_file: /home/centos/ddi.pem
       tasks:
-      
-    - name: Display remote host information
-      debug:
-        var: inventory_hostname
+        - name: Display remote host
 
 
     #name: Start gunicorn
